@@ -1,0 +1,5 @@
+Flask==1.0.2
+
+Flask-SQLAlchemy==2.3.2
+
+Invoke==1.1.0

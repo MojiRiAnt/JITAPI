@@ -41,7 +41,7 @@ cd JITAPI
 
 mkdir var
 
-#pip3 install -r requirements.txt # Install requirements
+pip3 install -r requirements.txt # Install requirements
 
 echo ""
 echo -e "\e[1;92mScript finished successfully!\e[0m"
