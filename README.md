@@ -1,6 +1,11 @@
 # JITAPI
 Junior Informatics Tournament Project
 
+### TODO
+
+* New tokens and secrets generation (nothing implemented yet).
+* A 'routes' module handling queries.
+
 ### How to import and run our project
 
 Using our installation script:
@@ -19,4 +24,7 @@ $ python3 ~/your/import/directory/JITENV/JITAPI/main.py  # run our project
 
 ### Project structure
 
-* main.py — the main module
+* main.py -- the main module
+* database.py -- database handling
+* crypto.py -- additional crypto functions
+* routes.py -- queries handling
