@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from crypto import random_string
 
+print ("I've been created")
 db = SQLAlchemy()
 
 # ====== Database variables ====== # IN DEVELOPMENT
@@ -12,11 +13,11 @@ _DEFAULT_STRING_SIZE = 127
 _TOKEN_SIZE = 16
 _SECRET_SIZE = 16
 
-def token_gen(lenght):
-    return random_string(lenght)
+def token_gen():
+    return random_string(_TOKEN_SIZE)
 
-def secret_gen(lenght):
-    return random_string(lenght)
+def secret_gen():
+    return random_string(_SECRET_SIZE)
 
 # ====== Database models ====== # IN DEVELOPMENT
 
@@ -27,7 +28,7 @@ class Employee(db.Model): # Cafe employee
     login = db.Column(db.String(_DEFAULT_STRING_SIZE), unique=True, nullable=False)
     password = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
     token = db.Column(db.String(_DEFAULT_STRING_SIZE), unique=True, default=token_gen)
-    permission_mask = db.Column(db.Integer, default=0, nullable=False) 
+    permission = db.Column(db.Integer, default=0, nullable=False) 
     registered = db.Column(db.DateTime, default=datetime.now)
     photo = db.Column(db.String, default=_UNKNOWN_PHOTO_PATH)
     cafe_id = db.Column(db.Integer, db.ForeignKey("cafe.id"), default=-1)
