@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from crypto import random_string
 
-print ("I've been created")
+print("I've been created {}".format(__name__))
 db = SQLAlchemy()
 
 # ====== Database variables ====== # IN DEVELOPMENT
@@ -34,12 +34,12 @@ class Employee(db.Model): # Cafe employee
     cafe_id = db.Column(db.Integer, db.ForeignKey("cafe.id"), default=-1)
     cafe = db.relationship('Cafe', backref=db.backref('employees', lazy=True))
 
-    # @classmethod
-    # def load(cls, employee):
-    #     try:
-    #         return Employee(**employee)
-    #     except Exception as err:
-    #         raise err
+    @classmethod
+    def load(cls, employee):
+        try:
+            return Employee(**employee)
+        except Exception as err:
+            raise err
 
 
 class Client(db.Model): # Client app
