@@ -46,7 +46,7 @@ class Client(db.Model): # Client app
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
-    secret = db.Column(db.Integer, default=secret_gen, nullable=False)
+    secret = db.Column(db.String(_DEFAULT_STRING_SIZE), default=secret_gen, nullable=False)
 
 
 class Customer(db.Model): # Orders' adress
