@@ -16,9 +16,9 @@ db.db.init_app(app)
 
 # ====== Routes & queries ====== # IN DEVELOPMENT
 
-@app.route('/test')
-def testroute():
-	return "<h1>Welcome to the test route! Danik sosi</h1>"
+from routes import bp
+
+app.register_blueprint(bp)
 
 # ====== Running and Debugging ====== # FINISHED PART
 

@@ -43,10 +43,12 @@ def check_employee():
             if not (request.args.keys(), ["login", "token"]):
                 return rsp(400, "doesn't given login or token")
             from database import Employee
+
             emp = Employee.query.filter_by(
                 login=request.args.get("login"),
                 token=request.args.get("token")
             ).first()
+
             if not emp:
                 return rsp(400, "couldn't prove given employee")
             return func(**args)
@@ -60,12 +62,20 @@ def check_permission(required_permissions):
             from database import Employee
             emp = Employee.query.filter_by(
                 login=request.args.get("login")
-            ).first
-             if emp.permission & required_permissions != required_permissions:
+            ).first()
+
+            if emp.permission & required_permissions != required_permissions:
                 return rsp(400, "permissions of given employee denied")
-             return func(employee=emp, **args)
+            return func(employee=emp, **args)
         return wrapper
     return real_decorator
 
 # ====== Routes ====== # IN DEVELOPMENT
 
+bp = Blueprint("main", __name__)
+
+@bp.route("/add/ingredient", methods=["POST"])
+@check_employee()
+@check_permission(ADMIN)
+def add_ingredient_handle(employee):
+    pass
