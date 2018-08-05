@@ -8,8 +8,8 @@ print("[SQLAlchemy] Database initialized (__name__ = {}).".format(__name__))
 
 # ====== Database variables ====== # IN DEVELOPMENT
 
-_UNKNOWN_PHOTO_PATH = "unknown.png"
-_DEFAULT_STRING_SIZE = 127
+_PHOTO_PATH = "resources/public/unknown.png"
+_STRING_SIZE = 127
 _TOKEN_SIZE = 16
 _SECRET_SIZE = 16
 
@@ -24,13 +24,13 @@ def secret_gen():
 class Employee(db.Model): # Cafe employee
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
-    login = db.Column(db.String(_DEFAULT_STRING_SIZE), unique=True, nullable=False)
-    password = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
-    token = db.Column(db.String(_DEFAULT_STRING_SIZE), unique=True, default=token_gen)
+    name = db.Column(db.String(_STRING_SIZE), nullable=False)
+    login = db.Column(db.String(_STRING_SIZE), unique=True, nullable=False)
+    password = db.Column(db.String(_STRING_SIZE), nullable=False)
+    token = db.Column(db.String(_STRING_SIZE), unique=True, default=token_gen)
     permission = db.Column(db.Integer, default=0, nullable=False) 
     registered = db.Column(db.DateTime, default=datetime.now)
-    photo = db.Column(db.String, default=_UNKNOWN_PHOTO_PATH)
+    photo = db.Column(db.String, default=_PHOTO_PATH)
     cafe_id = db.Column(db.Integer, db.ForeignKey("cafe.id"), default=-1)
     cafe = db.relationship('Cafe', backref=db.backref('employees', lazy=True))
 
@@ -45,15 +45,15 @@ class Employee(db.Model): # Cafe employee
 class Client(db.Model): # Client app
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
-    secret = db.Column(db.String(_DEFAULT_STRING_SIZE), default=secret_gen, nullable=False)
+    name = db.Column(db.String(_STRING_SIZE), nullable=False)
+    secret = db.Column(db.String(_STRING_SIZE), default=secret_gen, nullable=False)
 
 
 class Customer(db.Model): # Orders' adress
     
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
-    address = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
+    name = db.Column(db.String(_STRING_SIZE), nullable=False)
+    address = db.Column(db.String(_STRING_SIZE), nullable=False)
     #wishes = backref to their wishes
 
 
@@ -73,7 +73,7 @@ class Cafe(db.Model):
 class Ingredient(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
+    title = db.Column(db.String(_STRING_SIZE), nullable=False)
     expiry = db.Column(db.Interval, nullable=False)
 
     # def jsonify(self):
@@ -95,14 +95,14 @@ class Ingredient(db.Model):
 class Dish(db.Model): # They form our menu
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
+    title = db.Column(db.String(_STRING_SIZE), nullable=False)
     mass = db.Column(db.Float, default=0, nullable=False)
     is_visible = db.Column(db.Boolean, default=True, nullable=False)
     cost = db.Column(db.Float, nullable=False)
-    describe = db.Column(db.String(_DEFAULT_STRING_SIZE), default="", nullable=False)
-    photo = db.Column(db.String(_DEFAULT_STRING_SIZE), default=_UNKNOWN_PHOTO_PATH, nullable=False)
-    tags = db.Column(db.String(_DEFAULT_STRING_SIZE), default="[]", nullable=False)
-    ingredients = db.Column(db.String(_DEFAULT_STRING_SIZE), default="[]", nullable=False)
+    describe = db.Column(db.String(_STRING_SIZE), default="", nullable=False)
+    photo = db.Column(db.String(_STRING_SIZE), default=_PHOTO_PATH, nullable=False)
+    tags = db.Column(db.String(_STRING_SIZE), default="[]", nullable=False)
+    ingredients = db.Column(db.String(_STRING_SIZE), default="[]", nullable=False)
 
     # def jsonify(self):
     #     return {
@@ -131,6 +131,6 @@ class Dish(db.Model): # They form our menu
 class Wish(db.Model): # An order of Dish from Customer
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(_DEFAULT_STRING_SIZE), nullable=False)
+    title = db.Column(db.String(_STRING_SIZE), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"), nullable=False)
     customer = db.relationship('Customer', backref=db.backref('orders', lazy=True))

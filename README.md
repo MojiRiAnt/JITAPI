@@ -3,15 +3,14 @@ Junior Informatics Tournament Project
 
 ### TODO
 
-* New tokens and secrets generation (nothing implemented yet).
-* A 'routes' module handling queries.
+* More queries handling.
 
 ### How to import and run our project
 
 Using our installation script:
 ```console
 $ cd ~/Downloads  # navigate to your Downloads directory
-$ wget https://raw.githubusercontent.com/MojiRiAnt/JITAPI/master/ImportJITAPI.sh
+$ wget https://raw.githubusercontent.com/MojiRiAnt/JITAPI/master/resources/private/ImportJITAPI.sh
  # download our installation script
 $ cd ~/your/import/directory  # navigate to where you want
 $ bash ~/Downloads/ImportJITAPI.sh  # execute the script
@@ -24,7 +23,6 @@ $ python3 ~/your/import/directory/JITENV/JITAPI/main.py  # run our project
 
 ### Project structure
 
-* main.py -- the main module
+* main.py -- initializing our app and handling queries
 * database.py -- database handling
 * crypto.py -- additional crypto functions
-* routes.py -- queries handling
