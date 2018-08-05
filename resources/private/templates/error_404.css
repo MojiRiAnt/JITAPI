@@ -1,0 +1,48 @@
+body
+{
+	background-color: white;
+	background-image: url("../../public/blue-bg.jpg");
+	margin: 0;
+	font-family: DejaVu Sans Mono, Verdana;
+	text-align: center;
+}
+
+h1
+{
+	font-size: 20px;
+	color: #99CCFF;
+}
+
+.rotation-nya
+{
+	height: 400px;
+	margin-top: 90px;
+	margin-left: 35px;
+	animation: nyanimation linear 4s;
+	animation-iteration-count: infinite;
+	transform-origin: 50% 50%;
+}
+
+@keyframes nyanimation
+{
+	0%
+	{
+		transform:  rotate(0deg) scaleX(1) scaleY(1.5);
+	}
+	20%
+	{
+		transform:  rotate(72deg) scaleX(1.5) scaleY(1);
+	}
+	50%
+	{
+		transform:  rotate(180deg) scaleX(1) scaleY(1.5);
+	}
+	80%
+	{
+		transform:  rotate(287deg) scaleX(1.5) scaleY(1);
+	}
+	100%
+	{
+		transform:  rotate(359deg) scaleX(1) scaleY(1.5);
+	}
+}

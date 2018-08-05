@@ -1,6 +1,9 @@
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(__name__,
+	template_folder="resources/private/templates",
+	static_folder="resources")
+
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///var/database.db" # Initializing app
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['FLASK_ENV'] = "development"
@@ -11,7 +14,7 @@ db.db.init_app(app)                                                 # Initializi
 
 # ====== Routes & queries ====== # IN DEVELOPMENT
 
-from flask import Blueprint, request
+from flask import Blueprint, request, render_template
 from functools import wraps
 from json import dumps, loads
 
@@ -90,7 +93,7 @@ def add_ingredient_handle(employee):
 
 @app.errorhandler(404)
 def error_404(e):
-	return "<h1>OMG! Page not found! WTF! Аларм, хлопці!</h1>", 404
+	return render_template('error_404.html'), 404
 
 if __name__ == '__main__':
 
