@@ -109,3 +109,6 @@ venv.bak/
 # sublime
 *.sublime-project
 *.sublime-workspace
+
+# @D34DStone debug
+tasks.py
