@@ -1,30 +1,25 @@
-# ====== Initial app ====== # FINISHED PART
-
-from functools import wraps
-from json import dumps, loads
-from flask import Flask, Blueprint, request
+from flask import Flask
 
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///var/database.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///var/database.db" # Initializing app
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['FLASK_ENV'] = "development"
 
-# ====== Database stuff ====== # FINISHED PART
-
 import database as db
 
-db.db.init_app(app)
+db.db.init_app(app)                                                 # Initializing database
 
 # ====== Routes & queries ====== # IN DEVELOPMENT
+
+from flask import Blueprint, request
+from functools import wraps
+from json import dumps, loads
 
 COOK = 2 ** 0
 DRIVER = 2 ** 1
 WRH_MANAGER = 2 ** 2
 EMP_MANAGER = 2 ** 3
 ADMIN = 2 ** 4
-
-# ====== Functions ====== # WARNING : FINISHED
 
 def rsp(status, msg = None, res = None):
     return dumps({
@@ -54,7 +49,7 @@ def check_employee():
     def real_decorator(func):
         @wraps(func)
         def wrapper(**args):
-            if not (request.args.keys(), ["login", "token"]):
+            if not keys_valid(request.args.keys(), ["login", "token"]):
                 return rsp(400, "doesn't given login or token")
 
             emp = db.Employee.query.filter_by(
@@ -81,7 +76,9 @@ def check_permission(required_permissions):
             return func(employee=emp, **args)
         return wrapper
     return real_decorator
-	
+
+# --------------------------------------------------------------------------------
+
 @app.route("/add/ingredient", methods=["POST"])
 @check_employee()
 @check_permission(ADMIN)
@@ -91,7 +88,6 @@ def add_ingredient_handle(employee):
     except Exception as _:
         return rsp(400, "couldn't parse data")
 
-# ====== Running and Debugging ====== # FINISHED PART
 
 if __name__ == '__main__':
 

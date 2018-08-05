@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from crypto import random_string
 
-print("I've been created {}".format(__name__))
 db = SQLAlchemy()
+print("[SQLAlchemy] Database initialized (__name__ = {}).".format(__name__))
 
 # ====== Database variables ====== # IN DEVELOPMENT
 
