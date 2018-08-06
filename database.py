@@ -1,10 +1,10 @@
 # pylint: disable=E1101
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from datetime import timedelta
 from crypto import random_string
 
 db = SQLAlchemy()
-print("[SQLAlchemy] Database initialized (__name__ = {}).".format(__name__))
 
 # ====== Database variables ====== # IN DEVELOPMENT
 
@@ -12,6 +12,17 @@ _PHOTO_PATH = "resources/public/unknown.png"
 _STRING_SIZE = 127
 _TOKEN_SIZE = 16
 _SECRET_SIZE = 16
+
+# ====== Database functions ======= # IN DEVELOPMENT
+
+def td_to_str(td):
+    minutes = td.seconds % 3600
+    hours = int(td.seconds / 3600)
+    return "{}-{}-{}".format(td.days, hours, minutes)
+
+def str_to_td(s):
+    vals = list(map(int, s.split('-')))
+    return timedelta(days=vals[0], hours=vals[1], minutes=vals[2])
 
 def token_gen():
     return random_string(_TOKEN_SIZE)
@@ -76,20 +87,17 @@ class Ingredient(db.Model):
     title = db.Column(db.String(_STRING_SIZE), nullable=False)
     expiry = db.Column(db.Interval, nullable=False)
 
-    # def jsonify(self):
-    #     return {
-    #         "id": self.id,
-    #         "title": self.title,
-    #         "expiry" : "TODO: write timedelta to string conversation"
-    #     }
+    def dump(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "expiry" : td_to_str(self.expiry)
+        }
 
-    # @classmethod
-    # def load(cls, ingredient):
-    #     try:
-    #         ingredient["expiry"] = convert_timedelta(ingredient.get("expiry"))
-    #         return Ingredient(**ingredient)
-    #     except Exception as err:
-    #         return err
+    @classmethod
+    def load(cls, ingredient):
+        ingredient["expiry"] = str_to_td(ingredient.get("expiry"))
+        return Ingredient(**ingredient)
 
 
 class Dish(db.Model): # They form our menu

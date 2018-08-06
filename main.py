@@ -1,3 +1,4 @@
+# pylint: disable=E1101
 from flask import Flask
 
 app = Flask(__name__,
@@ -80,7 +81,7 @@ def check_permission(required_permissions):
 		return wrapper
 	return real_decorator
 
-# --------------------------------------------------------------------------------
+# ------- ADMIN SECTION -------- # COMPLETED
 
 @app.route("/add/ingredient", methods=["POST"])
 @check_employee()
@@ -88,8 +89,37 @@ def check_permission(required_permissions):
 def add_ingredient_handle(employee):
 	try:
 		ing = db.Ingredient.load(loads(request.data))
-	except Exception as _:
+	except Exception as err:
+		print(err)
 		return rsp(400, "couldn't parse data")
+
+	print(db.db.session)
+	db.db.session.add(ing)
+	db.db.session.commit()
+	return rsp(200, "ingredient were added")
+
+@app.route("/get/ingredient/<int:ingredient_id>", methods=["POST"])
+@check_employee()
+@check_permission(ADMIN)
+def get_ingredient_handle(employee, ingredient_id):
+	ing = db.Ingredient.query.filter_by(id=ingredient_id).first()
+
+	if not ing:
+		return rsp(400, "couldn't ingredient with such id")
+
+	return rsp(200, "ingredient were sent", ing.dump())
+
+@app.route("/get/ingredients", methods=["POST"])
+@check_employee()
+@check_permission(ADMIN)
+def get_ingredients_handle(employee):
+	ing = db.Ingredient.query.all()
+
+	return rsp(200, "ingredients were sent", list(map(db.Ingredient.dump, ing)))
+
+# ------- WAREHOUSE MANAGER SECTION --------- # IN DEVELOPMENT
+
+@app.route("")
 
 @app.errorhandler(404)
 def error_404(e):
