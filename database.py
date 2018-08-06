@@ -1,7 +1,6 @@
 # pylint: disable=E1101
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from crypto import random_string
 
 db = SQLAlchemy()
@@ -142,3 +141,27 @@ class Wish(db.Model): # An order of Dish from Customer
     title = db.Column(db.String(_STRING_SIZE), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"), nullable=False)
     customer = db.relationship('Customer', backref=db.backref('orders', lazy=True))
+
+class Good(db.Model):
+    """
+    Some amount of ingredient. (Ingredient -- abstract type)
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    mass = db.Column(db.Float, nullable=False)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey("ingredient.id"), nullable=False)
+    ingredient = db.relationship("Ingredient")
+    cafe_id = db.Column(db.Integer, db.ForeignKey("cafe.id"), nullable=False)
+    cafe = db.relationship("Cafe")
+    date = db.Column(db.DateTime, default=datetime.now)
+
+    def dump(self):
+        return {
+            "id": self.id,
+            "mass": self.mass,
+            "ingredient_id": self.ingredient_id,
+            "date": self.date.strftime("%d%m%Y")
+        }
+
+    @classmethod
+    def load(cls, good):
+        return Good(**good)
