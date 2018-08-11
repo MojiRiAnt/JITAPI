@@ -1,6 +1,7 @@
 # pylint: disable=E1101
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
+from json import dumps
 from crypto import random_string
 
 db = SQLAlchemy()
@@ -105,34 +106,36 @@ class Dish(db.Model): # They form our menu
     title = db.Column(db.String(_STRING_SIZE), nullable=False)
     mass = db.Column(db.Float, default=0, nullable=False)
     is_visible = db.Column(db.Boolean, default=True, nullable=False)
+    is_favourite = db.Column(db.Boolean, default=False, nullable=False)
     cost = db.Column(db.Float, nullable=False)
     describe = db.Column(db.String(_STRING_SIZE), default="", nullable=False)
     photo = db.Column(db.String(_STRING_SIZE), default=_PHOTO_PATH, nullable=False)
     tags = db.Column(db.String(_STRING_SIZE), default="[]", nullable=False)
     ingredients = db.Column(db.String(_STRING_SIZE), default="[]", nullable=False)
 
-    # def jsonify(self):
-    #     return {
-    #         "id": self.id,
-    #         "title": self.title,
-    #         "mass": self.mass,
-    #         "is_visible": self.is_visible,
-    #         "cost": self.cost,
-    #         "describe": self.describe,
-    #         "photo_path": self.photo_path,
-    #         "tags": self.tags,
-    #         "ingredients": self.ingredients
-    #     }
+    def dump(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "mass": self.mass,
+            "is_visible": self.is_visible,
+            "is_favourite": self.is_favourite,
+            "cost": self.cost,
+            "describe": self.describe,
+            "photo": self.photo,
+            "tags": self.tags,
+            "ingredients": self.ingredients,
+        }
 
     # When uncommenting, don't forget to import dumps at the beginning of the file
-    # @classmethod
-    # def load(cls, dish):
-    #     try:
-    #         dish["tags"] = dumps(dish.get("tags"))
-    #         dish["ingredients"] = dumps(dish.get("ingredients"))
-    #         return Dish(**dish)
-    #     except Exception as err:
-    #         raise err
+    @classmethod
+    def load(cls, dish):
+        try:
+            dish["tags"] = dumps(dish.get("tags"))
+            dish["ingredients"] = dumps(dish.get("ingredients"))
+            return Dish(**dish)
+        except Exception as err:
+            raise err
       
 
 class Wish(db.Model): # An order of Dish from Customer

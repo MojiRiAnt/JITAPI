@@ -1,0 +1,46 @@
+[
+    {
+        "title": "tomato",
+        "expiry": "03-00-00"
+    },
+    {
+        "title": "potato",
+        "expiry": "05-00-00"
+    },
+    {
+        "title": "eggs",
+        "expiry": "02-00-00"
+    },
+    {
+        "title": "salmon",
+        "expiry": "00-12-00"
+    },
+    {
+        "title": "carp",
+        "expiry": "02-00-00"
+    },
+    {
+        "title": "beef",
+        "expiry": "03-00-00"
+    },
+    {
+        "title": "bread",
+        "expiry": "01-00-00"
+    },
+    {
+        "title": "cheese default",
+        "expiry": "10-00-00"
+    },
+    {
+        "title": "sunflower oil",
+        "expiry": "365-00-00"
+    },
+    {
+        "title": "oliv oil",
+        "expiry": "730-00-00"
+    },
+    {
+        "title": "spicy spices",
+        "expiry": "730-00-00"
+    }
+]

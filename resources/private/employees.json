@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Torianik George",
+        "login": "root",
+        "password": "rootpwd",
+        "permission_mask": 31,
+        "cafe_id": 1,
+        "photo_path": "root.png"
+    },
+    {
+        "name": "Hikari Shinji",
+        "login": "hishin",
+        "password": "ayanami",
+        "permission_mask": 8,
+        "cafe_id": 2,
+        "photo_path": "hishin.png"
+    },
+    {
+        "name": "Hank Chinaski",
+        "login": "chinaski",
+        "password": "fatherdie",
+        "permission_mask": 3,
+        "cafe_id": 3,
+        "photo_path": "chinaski.png"
+    }
+]

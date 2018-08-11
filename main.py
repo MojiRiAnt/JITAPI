@@ -15,7 +15,7 @@ db.db.init_app(app)                                                 # Initializi
 
 # ====== Routes & queries ====== # IN DEVELOPMENT
 
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, send_from_directory
 from functools import wraps
 from json import dumps, loads, load
 
@@ -145,6 +145,15 @@ def get_ingredients_handle(employee):
 
 	return rsp(200, "ingredients were sent", list(map(db.Ingredient.dump, ing)))
 
+@app.route("/add/dish", methods=["POST"])
+@check_employee()
+@check_permission(ADMIN)
+def add_dish_handle(emloyee):
+	try:
+		dish = db.Dish.load(json_loads_byteified(request.data))
+	except Exception as _:
+		return rsp(200, "couldn't parse a dish")
+
 # ------- WAREHOUSE MANAGER SECTION --------- # COMPLETED
 
 @app.route("/supply", methods=["POST"])
@@ -174,6 +183,18 @@ def get_goods_handle(employee):
 	return rsp(200, "goods were sent", dumps(goods, indent=2))
 
 # ------- EMPLOYEES MANAGER SECTION ---------- # IN DEVELOPMENT
+
+# ------- PUBLIC MANAGER SECTION ------------- # IN DEVELOPMENT
+
+@app.route("/public/<path:pt>")
+def public_handle(pt):
+	return send_from_directory("resources/public", pt)
+
+@app.route("/get/dishes", methods=["GET"])
+def get_dishes_handle():
+	dishes = db.Dish.query.filter_by(is_visible=True).all()
+	dishes = list(map(db.Dish.dump, dishes))
+	return rsp(200, "dish were sent", dumps(dishes))
 
 @app.errorhandler(404)
 def error_404(e):
