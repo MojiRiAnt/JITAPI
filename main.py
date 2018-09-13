@@ -38,34 +38,11 @@ def keys_valid(given, required):
 			return False
 	return True
 
-def json_load_byteified(file_handle):
-    return _byteify(
-        load(file_handle, object_hook=_byteify),
-        ignore_dicts=True
-    )
-
-def json_loads_byteified(json_text):
-    return _byteify(
-        loads(json_text, object_hook=_byteify),
-        ignore_dicts=True
-    )
-
-def _byteify(data, ignore_dicts = False):
-    # if this is a unicode string, return its string representation
-    if isinstance(data, unicode):
-        return data.encode('utf-8')
-    # if this is a list of values, return list of byteified values
-    if isinstance(data, list):
-        return [ _byteify(item, ignore_dicts=True) for item in data ]
-    # if this is a dictionary, return dictionary of byteified keys and values
-    # but only if we haven't already byteified it
-    if isinstance(data, dict) and not ignore_dicts:
-        return {
-            _byteify(key, ignore_dicts=True): _byteify(value, ignore_dicts=True)
-            for key, value in data.iteritems()
-        }
-    # if it's anything else, return it in its original form
-    return data
+def stringify(data):
+	if type(data) is bytes:
+		return bytes.decode(data)
+	else:
+		return data
 
 """
 Usage of next 2 decorators example:
@@ -78,7 +55,7 @@ NOTE: recomended to use this decorators together and only in given order
 NOTE: check_permission decorator push into end function employee argument so don't miss it
 """
 
-def check_employee():
+def check_employee_():
 	def real_decorator(func):
 		@wraps(func)
 		def wrapper(**args):
@@ -96,7 +73,7 @@ def check_employee():
 		return wrapper
 	return real_decorator
 
-def check_permission(required_permissions):
+def check_permission_(required_permissions):
 	def real_decorator(func):
 		@wraps(func)
 		def wrapper(**args):
@@ -110,14 +87,38 @@ def check_permission(required_permissions):
 		return wrapper
 	return real_decorator
 
+# Created to disable authorization and authentification without 
+# changing other code if it necessary
+
+def check_employee_fake_():
+	def real_decorator(func):
+		@wraps(func)
+		def wrapper(**args):
+			return func(**args)
+		return wrapper
+	return real_decorator
+
+def check_permission_fake_(required_permission):
+	def real_decorator(func):
+		@wraps(func)
+		def wrapper(**args):
+			return func(employee=None, **args)
+		return wrapper
+	return real_decorator
+
+# check_employee = check_employee_
+# check_permission = check_permission_
+check_employee = check_employee_fake_
+check_permission = check_permission_fake_
+
 # ------- ADMIN SECTION -------- # COMPLETED
 
-@app.route("/add/ingredient", methods=["POST"])
+@app.route("/add/ingredient", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
 def add_ingredient_handle(employee):
 	try:
-		ing = db.Ingredient.load(json_loads_byteified(request.data))
+		ing = db.Ingredient.load(loads(stringify(request.data)))
 	except Exception as _:
 		return rsp(400, "couldn't parse ingredient")
 
@@ -126,7 +127,7 @@ def add_ingredient_handle(employee):
 	db.db.session.commit()
 	return rsp(200, "ingredient were added")
 
-@app.route("/get/ingredient/<int:ingredient_id>", methods=["POST"])
+@app.route("/get/ingredient/<int:ingredient_id>", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
 def get_ingredient_handle(employee, ingredient_id):
@@ -137,7 +138,7 @@ def get_ingredient_handle(employee, ingredient_id):
 
 	return rsp(200, "ingredient were sent", ing.dump())
 
-@app.route("/get/ingredients", methods=["POST"])
+@app.route("/get/ingredients", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
 def get_ingredients_handle(employee):
@@ -145,23 +146,23 @@ def get_ingredients_handle(employee):
 
 	return rsp(200, "ingredients were sent", list(map(db.Ingredient.dump, ing)))
 
-@app.route("/add/dish", methods=["POST"])
+@app.route("/add/dish", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
 def add_dish_handle(emloyee):
 	try:
-		dish = db.Dish.load(json_loads_byteified(request.data))
+		dish = db.Dish.load(stringify(loads((request.data))))
 	except Exception as _:
 		return rsp(200, "couldn't parse a dish")
 
 # ------- WAREHOUSE MANAGER SECTION --------- # COMPLETED
 
-@app.route("/supply", methods=["POST"])
+@app.route("/supply", methods=["POST", "GET"])
 @check_employee()
 @check_permission(WRH_MANAGER)
 def supply_handle(employee):
 	try:
-		supply = json_loads_byteified(request.data)
+		supply = loads(stringify((request.data)))
 		for good in supply:
 			good["cafe_id"] = employee.cafe_id
 
@@ -174,7 +175,7 @@ def supply_handle(employee):
 	db.db.session.commit()
 	return rsp(200, "supply were added")
 	
-@app.route("/get/goods", methods=["POST"])
+@app.route("/get/goods", methods=["POST", "GET"])
 @check_employee()
 @check_permission(WRH_MANAGER)
 def get_goods_handle(employee):
@@ -190,7 +191,7 @@ def get_goods_handle(employee):
 def public_handle(pt):
 	return send_from_directory("resources/public", pt)
 
-@app.route("/get/dishes", methods=["GET"])
+@app.route("/get/dishes", methods=["POST", "GET"])
 def get_dishes_handle():
 	dishes = db.Dish.query.filter_by(is_visible=True).all()
 	dishes = list(map(db.Dish.dump, dishes))
