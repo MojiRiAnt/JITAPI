@@ -1,5 +1,9 @@
 # pylint: disable=E1101
-from flask import Flask
+from flask import Flask, Blueprint, request, render_template, send_from_directory
+from functools import wraps
+from json import dumps, loads, load
+from crypto import random_string
+import os
 
 app = Flask(__name__,
 	template_folder="resources/private/templates",
@@ -8,16 +12,13 @@ app = Flask(__name__,
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///var/database.db" # Initializing app
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['FLASK_ENV'] = "development"
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.join(os.getcwd(), "resources"), "public")
 
 import database as db
 
 db.db.init_app(app)                                                 # Initializing database
 
 # ====== Routes & queries ====== # IN DEVELOPMENT
-
-from flask import Blueprint, request, render_template, send_from_directory
-from functools import wraps
-from json import dumps, loads, load
 
 COOK = 2 ** 0
 DRIVER = 2 ** 1
@@ -43,6 +44,9 @@ def stringify(data):
 		return bytes.decode(data)
 	else:
 		return data
+
+def check_is_unique(path, filename):
+	return filename not in os.listdir(path)
 
 """
 Usage of next 2 decorators example:
@@ -122,10 +126,10 @@ def add_ingredient_handle(employee):
 	except Exception as _:
 		return rsp(400, "couldn't parse ingredient")
 
-	print(db.db.session)
 	db.db.session.add(ing)
 	db.db.session.commit()
 	return rsp(200, "ingredient were added")
+
 
 @app.route("/get/ingredient/<int:ingredient_id>", methods=["POST", "GET"])
 @check_employee()
@@ -138,6 +142,7 @@ def get_ingredient_handle(employee, ingredient_id):
 
 	return rsp(200, "ingredient were sent", ing.dump())
 
+
 @app.route("/get/ingredients", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
@@ -146,6 +151,7 @@ def get_ingredients_handle(employee):
 
 	return rsp(200, "ingredients were sent", list(map(db.Ingredient.dump, ing)))
 
+
 @app.route("/add/dish", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
@@ -153,7 +159,30 @@ def add_dish_handle(emloyee):
 	try:
 		dish = db.Dish.load(stringify(loads((request.data))))
 	except Exception as _:
-		return rsp(200, "couldn't parse a dish")
+		return rsp(400, "couldn't parse a dish")
+
+	db.db.session.add(dish)
+	db.db.session.commit()
+
+	return rsp(200, "dish were addded")
+
+
+@app.route("/upload/dish_photo", methods=["POST", "GET"])
+def upload_dish_photo_handle():
+	
+	filename = random_string(16)
+
+	while not check_is_unique(app.config.get('UPLOAD_FOLDER'), filename):
+		filename = random_string(16)
+
+	try:
+		file = request.files.get('file')
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+	except Exception as _:
+		return rsp(400, "couldn't upload the file")
+
+	return rsp(200, "file was uploaded", filename)
+
 
 # ------- WAREHOUSE MANAGER SECTION --------- # COMPLETED
 
@@ -202,7 +231,4 @@ def error_404(e):
 	return render_template('error_404.html'), 404
 
 if __name__ == '__main__':
-
-	# LOAD YOUR DEBUG HERE, AND DON'T COMMIT IT
-
-	app.run(host='0.0.0.0', port='5000', debug=True) # WARNING : Debug mode is ON
+	app.run(host='0.0.0.0', port='5000', debug=True)
