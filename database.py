@@ -73,12 +73,12 @@ class Cafe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     #employees = backref to its employees
 
-    # @classmethod
-    # def load(cls, cafe):
-    #     try:
-    #         return Cafe(**cafe)
-    #     except Exception as err:
-    #         raise err
+    @classmethod
+    def load(cls, cafe):
+        try:
+            return Cafe(**cafe)
+        except Exception as err:
+            raise err
 
 
 class Ingredient(db.Model):

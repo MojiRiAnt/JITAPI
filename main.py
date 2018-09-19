@@ -214,7 +214,7 @@ def get_goods_handle(employee):
 
 # ------- EMPLOYEES MANAGER SECTION ---------- # IN DEVELOPMENT
 
-# ------- PUBLIC MANAGER SECTION ------------- # IN DEVELOPMENT
+# ------- PUBLIC SECTION ------------- # IN DEVELOPMENT
 
 @app.route("/public/<path:pt>")
 def public_handle(pt):
@@ -225,6 +225,27 @@ def get_dishes_handle():
 	dishes = db.Dish.query.filter_by(is_visible=True).all()
 	dishes = list(map(db.Dish.dump, dishes))
 	return rsp(200, "dish were sent", dumps(dishes))
+
+@app.route("/login", methods=["POST", "GET"])
+def login_handle():
+	login = request.args.get("login")
+	pwd = request.args.get("password")
+
+	with app.app_context():
+		employee = db.Employee.query.filter_by(
+			login=login,
+			password=pwd
+		).all()
+
+	if not employee:
+		return rsp(400, "no such employee")
+
+	employee = employee[0]
+	return rsp(200, "there is such employee", {
+		"id": employee.id,
+		"login": employee.login,
+		"token": employee.token
+	})
 
 @app.errorhandler(404)
 def error_404(e):

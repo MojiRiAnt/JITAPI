@@ -17,25 +17,18 @@ def load(c):
     """
     Load test dataset
     """
-    root = db.Employee(
-        name="Torianik George",
-        login="root",
-        password="123",
-        permission=2**5-1
-    )
-
     def load(path, class_to_load):
         with open(path) as f:
             data = loads(f.read())
-            for obj in data:
-                db.db.session.add(class_to_load.load(obj))
-            db.db.session.commit()
+            with app.app_context():
+                for obj in data:
+                    db.db.session.add(class_to_load.load(obj))
+                db.db.session.commit()
 
-    with app.app_context():
-        db.db.session.add(root)
-        db.db.session.commit()
-
-        load("resources/private/dishes.json", db.Dish)
+    load("resources/private/dishes.json", db.Dish)
+    load("resources/private/cafes.json", db.Cafe)
+    load("resources/private/employees.json", db.Employee)
+    load("resources/private/ingredients.json", db.Ingredient)
     
 
     
