@@ -167,9 +167,8 @@ def add_dish_handle(emloyee):
 	return rsp(200, "dish were addded")
 
 
-@app.route("/upload/dish_photo", methods=["POST", "GET"])
+@app.route("/upload/photo", methods=["POST", "GET"])
 def upload_dish_photo_handle():
-	
 	filename = random_string(16)
 
 	while not check_is_unique(app.config.get('UPLOAD_FOLDER'), filename):
@@ -183,6 +182,16 @@ def upload_dish_photo_handle():
 
 	return rsp(200, "file was uploaded", filename)
 
+@app.route("/get/orders", methods=["POST", "GET"])
+@check_employee()
+@check_permission(ADMIN)
+def get_orders_handle(employee):
+	with app.app_context():
+		orders = db.Wish.query.all()
+
+	orders = list(map(lambda order : order.dump(), orders))
+
+	return rsp(200, "Orders were sent", orders)
 
 # ------- WAREHOUSE MANAGER SECTION --------- # COMPLETED
 
@@ -246,6 +255,26 @@ def login_handle():
 		"login": employee.login,
 		"token": employee.token
 	})
+
+"""
+Here debug curl request:
+
+curl 'localhost:5000/make_order' -X GET -H 'Content-Type: application/json' -d \
+'{"address": "Kharkiv, Darvina str., House 19","dishes": [{"dish_id": 1,"number": 3},
+{"dish_id": 4,"number": 1},{"dish_id": 2,"number": 2}]}' 
+"""
+@app.route("/make_order", methods=["POST", "GET"])
+def make_order_handle():
+	try:
+		order = db.Wish.load(loads(stringify(request.data)))
+	except Exception as _:
+		return rsp(400, "Couldn't parse order")
+
+	with app.app_context():
+		db.db.session.add(order)
+		db.db.session.commit()
+
+	return rsp(200, "order was appended")	
 
 @app.errorhandler(404)
 def error_404(e):

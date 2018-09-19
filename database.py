@@ -141,9 +141,21 @@ class Dish(db.Model): # They form our menu
 class Wish(db.Model): # An order of Dish from Customer
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(_STRING_SIZE), nullable=False)
-    customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"), nullable=False)
-    customer = db.relationship('Customer', backref=db.backref('orders', lazy=True))
+    status = db.Column(db.Integer, default=0)
+    dishes = db.Column(db.String(2 ** 16), nullable=False)
+    address = db.Column(db.String(2 ** 16), nullable=False)
+
+    @classmethod
+    def load(cls, wish):
+        wish["dishes"] = dumps(wish.get("dishes"))
+        return Wish(**wish)
+
+    def dump(self):
+        return {
+            "id": self.id,
+            "dishes": dumps(self.dishes),
+            "address": self.address
+        }
 
 class Good(db.Model):
     """
