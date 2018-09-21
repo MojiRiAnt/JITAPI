@@ -221,6 +221,14 @@ def get_goods_handle(employee):
 	goods = list(map(db.Good.dump, goods))
 	return rsp(200, "goods were sent", dumps(goods, indent=2))
 
+# ------- DRIVER SECTION -------- #
+
+@app.route("/ready", methods=["POST", "GET"])
+@check_employee()
+@check_permission(DRIVER)
+def ready_handle(employee):
+	pass
+
 # ------- EMPLOYEES MANAGER SECTION ---------- # IN DEVELOPMENT
 
 # ------- PUBLIC SECTION ------------- # IN DEVELOPMENT
@@ -233,7 +241,7 @@ def public_handle(pt):
 def get_dishes_handle():
 	dishes = db.Dish.query.filter_by(is_visible=True).all()
 	dishes = list(map(db.Dish.dump, dishes))
-	return rsp(200, "dish were sent", dumps(dishes))
+	return rsp(200, "dish were sent", dishes)
 
 @app.route("/login", methods=["POST", "GET"])
 def login_handle():
