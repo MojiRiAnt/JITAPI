@@ -153,7 +153,7 @@ class Wish(db.Model): # An order of Dish from Customer
     def dump(self):
         return {
             "id": self.id,
-            "dishes": dumps(self.dishes),
+            "dishes": loads(self.dishes),
             "address": self.address
         }
 

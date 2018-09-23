@@ -3,6 +3,7 @@ from flask import Flask, Blueprint, request, render_template, send_from_director
 from functools import wraps
 from json import dumps, loads, load
 from crypto import random_string
+from time import sleep
 import os
 
 app = Flask(__name__,
@@ -223,11 +224,28 @@ def get_goods_handle(employee):
 
 # ------- DRIVER SECTION -------- #
 
+# NOW IT IS JUST PLACEHOLDER...
 @app.route("/ready", methods=["POST", "GET"])
 @check_employee()
 @check_permission(DRIVER)
 def ready_handle(employee):
-	pass
+	sleep(2)
+
+	wish = db.Wish.load({
+		"address": "49.997752, 36.245775",
+		"dishes": [
+			{
+				"id": 1,
+				"number": 2
+			},
+			{
+				"id": 2,
+				"number": 3
+			}
+		]
+	}).dump()
+
+	return rsp(200, "order were sent", dumps(wish))
 
 # ------- EMPLOYEES MANAGER SECTION ---------- # IN DEVELOPMENT
 
