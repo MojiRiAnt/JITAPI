@@ -162,6 +162,7 @@ def add_dish_handle(emloyee):
 	except Exception as _:
 		return rsp(400, "couldn't parse a dish")
 
+	print("HELLO")
 	db.db.session.add(dish)
 	db.db.session.commit()
 
@@ -224,12 +225,29 @@ def get_goods_handle(employee):
 
 # ------- DRIVER SECTION -------- #
 
-# NOW IT IS JUST PLACEHOLDER...
 @app.route("/ready", methods=["POST", "GET"])
 @check_employee()
 @check_permission(DRIVER)
 def ready_handle(employee):
-	sleep(2)
+	while True:
+		with app.app_context():
+			wishes = db.Wish.query.filter_by(status=0).all()
+
+			if wishes:
+				order = wishes[0]
+				order.status = 2
+				db.db.session.commit()
+				return rsp(200, "order was sent", order.dump())
+
+		sleep(0.25)
+
+# This is fake version of ready that just send 
+# and fake order after 1.5 seconds of waiting
+@app.route("/ready_fake", methods=["POST", "GET"])
+@check_employee()
+@check_permission(DRIVER)
+def ready_fake_handle(employee):
+	sleep(1.5)
 
 	wish = db.Wish.load({
 		"address": "49.997752, 36.245775",
@@ -245,7 +263,7 @@ def ready_handle(employee):
 		]
 	}).dump()
 
-	return rsp(200, "order were sent", dumps(wish))
+	return rsp(200, "order were sent", wish)
 
 # ------- EMPLOYEES MANAGER SECTION ---------- # IN DEVELOPMENT
 
@@ -284,9 +302,8 @@ def login_handle():
 
 """
 Here debug curl request:
-
 curl 'localhost:5000/make_order' -X GET -H 'Content-Type: application/json' -d \
-'{"address": "Kharkiv, Darvina str., House 19","dishes": [{"dish_id": 1,"number": 3},
+'{"address": "49.997752, 36.245775","dishes": [{"dish_id": 1,"number": 3},
 {"dish_id": 4,"number": 1},{"dish_id": 2,"number": 2}]}' 
 """
 @app.route("/make_order", methods=["POST", "GET"])
@@ -296,9 +313,8 @@ def make_order_handle():
 	except Exception as _:
 		return rsp(400, "Couldn't parse order")
 
-	with app.app_context():
-		db.db.session.add(order)
-		db.db.session.commit()
+	db.db.session.add(order)
+	db.db.session.commit()
 
 	return rsp(200, "order was appended")	
 
