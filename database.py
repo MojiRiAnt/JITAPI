@@ -1,7 +1,7 @@
 # pylint: disable=E1101
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
-from json import dumps
+from json import dumps, loads
 from crypto import random_string
 
 db = SQLAlchemy()
@@ -123,8 +123,8 @@ class Dish(db.Model): # They form our menu
             "cost": self.cost,
             "describe": self.describe,
             "photo": self.photo,
-            "tags": self.tags,
-            "ingredients": self.ingredients,
+            "tags": loads(self.tags),
+            "ingredients": loads(self.ingredients),
         }
 
     # When uncommenting, don't forget to import dumps at the beginning of the file
