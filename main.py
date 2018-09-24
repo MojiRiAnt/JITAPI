@@ -1,9 +1,10 @@
-# pylint: disable=E1101
+# pylint: disable=E1101, E0611, E401
 from flask import Flask, Blueprint, request, render_template, send_from_directory
 from functools import wraps
 from json import dumps, loads, load
 from crypto import random_string
 from time import sleep
+import urllib.request
 import os
 
 app = Flask(__name__,
@@ -303,17 +304,50 @@ def login_handle():
 """
 Here debug curl request:
 curl 'localhost:5000/make_order' -X GET -H 'Content-Type: application/json' -d \
-'{"address": "49.997752, 36.245775","dishes": [{"dish_id": 1,"number": 3},
+'{"address": "Kharkiv Darvina 19 40","dishes": [{"dish_id": 1,"number": 3},
 {"dish_id": 4,"number": 1},{"dish_id": 2,"number": 2}]}' 
 """
 @app.route("/make_order", methods=["POST", "GET"])
 def make_order_handle():
+
+	obj_request = loads(stringify(request.data))
+
+	address = obj_request.get("address")
+	google_maps_host = "https://maps.googleapis.com/maps/api/geocode/json"
+	secret_google_key = "AIzaSyBhoLgP6V1iOA6NmnASdQEBsm6HET0oQPg"
+	address = '+'.join(address.split())
+
+	url = "{}?address={}&key={}&language=ru".format(
+		google_maps_host, 
+		address, 
+		secret_google_key	
+	)
+
+	google_maps_request = urllib.request.urlopen(url)
+	result = loads(google_maps_request.read()).get("results")[0]
+	position = result.get("geometry").get("viewport").get("northeast")
+	coordinats = "{}, {}".format(position.get("lat"), position.get("lng"))
+
+	obj_request["coordinats"] = coordinats
+
 	try:
-		order = db.Wish.load(loads(stringify(request.data)))
+		order = db.Wish.load(obj_request)
 	except Exception as _:
 		return rsp(400, "Couldn't parse order")
 
+	google_maps_host = "https://maps.googleapis.com/maps/api/geocode/json"
+	secret_google_key = "AIzaSyBhoLgP6V1iOA6NmnASdQEBsm6HET0oQPg"
+	address = '+'.join(order.address.split())
+
+	url = "{}?address={}&key={}&language=ru".format(
+		google_maps_host, 
+		address, 
+		secret_google_key	
+	)
 	db.db.session.add(order)
+	db.db.session.commit()
+
+	order.coordinats = coordinats
 	db.db.session.commit()
 
 	return rsp(200, "order was appended")	

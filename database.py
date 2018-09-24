@@ -144,6 +144,7 @@ class Wish(db.Model): # An order of Dish from Customer
     status = db.Column(db.Integer, default=0)
     dishes = db.Column(db.String(2 ** 16), nullable=False)
     address = db.Column(db.String(2 ** 16), nullable=False)
+    coordinats = db.Column(db.String(2 ** 16), default="0.0, 0.0")
 
     @classmethod
     def load(cls, wish):
@@ -154,7 +155,8 @@ class Wish(db.Model): # An order of Dish from Customer
         return {
             "id": self.id,
             "dishes": loads(self.dishes),
-            "address": self.address
+            "address": self.address,
+            "coordinats": self.coordinats
         }
 
 class Good(db.Model):
