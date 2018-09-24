@@ -251,7 +251,8 @@ def ready_fake_handle(employee):
 	sleep(1.5)
 
 	wish = db.Wish.load({
-		"address": "49.997752, 36.245775",
+		"address": "Kharkiv Darvina 19 40",
+		"coordinats": "49.997752, 36.245775", 
 		"dishes": [
 			{
 				"id": 1,
