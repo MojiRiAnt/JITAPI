@@ -1,4 +1,4 @@
-# pylint: disable=E1101, E0611, E401
+# pylint: disable=E1101, E0611, E0401
 from flask import Flask, Blueprint, request, render_template, send_from_directory
 from functools import wraps
 from json import dumps, loads, load
@@ -266,6 +266,39 @@ def ready_fake_handle(employee):
 	}).dump()
 
 	return rsp(200, "order were sent", wish)
+
+@app.route("/note", methods=["POST", "GET"])
+@check_employee_()
+@check_permission_(DRIVER)
+def note_handle(employee):
+	if request.args.get("coordinats") is None:
+		return rsp(400, "You don't sent us your coordinats")
+
+	coords = request.args.get("coordinats")
+	employee.coordinats = coords
+	db.db.session.commit()
+
+	return rsp(200, "You coordinats was successfull received!")
+
+@app.route("/delivered", methods=["POST", "GET"])
+@check_employee_()
+@check_permission_(DRIVER)
+def delivered_hadnle(employee):
+	if request.args.get("order_id") is None:
+		return rsp(400, "You don't set us an order id")
+
+	id = request.args.get("order_id")
+
+	orders = db.Wish.query.filter_by(id=id, status=2).all()
+
+	if not orders:
+		return rsp(400, "There is no order with such id that is delivering now")
+
+	order = orders[0]
+	order.status = 3
+	db.db.session.commit()
+
+	return rsp(200, "You ready with this! Congradulations!")
 
 # ------- EMPLOYEES MANAGER SECTION ---------- # IN DEVELOPMENT
 
