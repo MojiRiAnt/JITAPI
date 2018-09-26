@@ -1,5 +1,6 @@
 # pylint: disable=E1101, E0611, E0401
 from flask import Flask, Blueprint, request, render_template, send_from_directory
+from flask_cors import CORS
 from functools import wraps
 from json import dumps, loads, load
 from crypto import random_string
@@ -10,6 +11,9 @@ import os
 app = Flask(__name__,
 	template_folder="resources/private/templates",
 	static_folder="resources")
+
+# make possible to send crossdomain request on this host
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///var/database.db" # Initializing app
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
