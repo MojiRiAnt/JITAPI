@@ -6,6 +6,7 @@ from json import dumps, loads, load
 from crypto import random_string
 from time import sleep
 import urllib.request
+import hashlib
 import os
 
 app = Flask(__name__,
@@ -189,6 +190,7 @@ def upload_dish_photo_handle():
 
 	return rsp(200, "file was uploaded", filename)
 
+
 @app.route("/get/orders", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
@@ -199,6 +201,32 @@ def get_orders_handle(employee):
 	orders = list(map(lambda order : order.dump(), orders))
 
 	return rsp(200, "Orders were sent", orders)
+
+@app.route("/get/state_hashes", methods=["POST", "GET"])
+@check_employee()
+@check_permission(ADMIN)
+def get_state_hashes(employee):
+	result = {
+		"dishes_hash": "1",
+		"pictures_hash": "2",
+		"orders_hash": "3"
+	}
+
+	dishes = db.Dish.query.all()
+	pictures = os.listdir("{}/resources/public/".format(os.getcwd()))
+	orders = db.Wish.query.all()
+
+	dishes = list(map(lambda x: str(x.id), dishes))
+	orders = list(map(lambda x: str(x.id), orders))
+	result["dishes_hash"] = hashlib.sha256(str.encode(','.join(dishes))).hexdigest()
+	result["pictures_hash"] = hashlib.sha256(str.encode(','.join(pictures))).hexdigest()
+	result["orders_hash"] = hashlib.sha256(str.encode(','.join(orders))).hexdigest()	
+
+	return rsp(200, "Hashes was sent", result)
+
+	print(dishes, pictures, orders)
+	return "123"
+
 
 # ------- WAREHOUSE MANAGER SECTION --------- # COMPLETED
 
@@ -362,7 +390,7 @@ def make_order_handle():
 	)
 
 	google_maps_request = urllib.request.urlopen(url)
-	result = loads(google_maps_request.read()).get("results")[0]
+	result = loads(stringify(google_maps_request.read())).get("results")[0]
 	position = result.get("geometry").get("viewport").get("northeast")
 	coordinats = "{}, {}".format(position.get("lat"), position.get("lng"))
 
