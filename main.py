@@ -224,9 +224,13 @@ def get_state_hashes(employee):
 
 	return rsp(200, "Hashes was sent", result)
 
-	print(dishes, pictures, orders)
-	return "123"
+@app.route("/get/images")
+@check_employee()
+@check_permission(ADMIN)
+def get_images_handle(employee):
+	pictures = os.listdir("{}/resources/public/".format(os.getcwd()))
 
+	return rsp(200, "This is all files in /resources/public", pictures)
 
 # ------- WAREHOUSE MANAGER SECTION --------- # COMPLETED
 
