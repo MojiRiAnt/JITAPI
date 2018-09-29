@@ -158,7 +158,7 @@ class Wish(db.Model): # An order of Dish from Customer
             "dishes": loads(self.dishes),
             "address": self.address,
             "coordinats": self.coordinats,
-            "name": "Торяник Георгий Юрьевич",
+            "name": "Hikari Shinji",
             "phone": "+380500813720"
         }
 

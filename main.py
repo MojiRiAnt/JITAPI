@@ -373,9 +373,9 @@ def login_handle():
 
 """
 Here debug curl request:
-curl 'localhost:5000/make_order' -X GET -H 'Content-Type: application/json' -d \
-'{"address": "Kharkiv Darvina 19 40","dishes": [{"dish_id": 1,"number": 3},
-{"dish_id": 4,"number": 1},{"dish_id": 2,"number": 2}]}' 
+curl 'api.torianik.online:5000/make_order' -X GET -H 'Content-Type: application/json' -d \
+'{"address": "Kharkiv Darvina 19 40","dishes": [{"dish_name": "snacks","number": 3},
+{"dish_name": "burger","number": 1},{"dish_name": "harcho","number": 2}]}' 
 """
 @app.route("/make_order", methods=["POST", "GET"])
 def make_order_handle():
@@ -390,7 +390,7 @@ def make_order_handle():
 	url = "{}?address={}&key={}&language=ru".format(
 		google_maps_host, 
 		address, 
-		secret_google_key	
+		secret_google_key
 	)
 
 	google_maps_request = urllib.request.urlopen(url)
