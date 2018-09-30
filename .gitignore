@@ -112,3 +112,4 @@ venv.bak/
 
 # @D34DStone debug
 # tasks.py
+nohup.out

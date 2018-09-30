@@ -5,7 +5,7 @@ from functools import wraps
 from json import dumps, loads, load
 from crypto import random_string
 from time import sleep
-import urllib.request
+import requests
 import hashlib
 import os
 
@@ -385,7 +385,7 @@ def make_order_handle():
 	except Exception:
 		return rsp(400, "Couldn't parse json")
 
-	try:
+	if True:
 		address = obj_request.get("address")
 		google_maps_host = "https://maps.googleapis.com/maps/api/geocode/json"
 		secret_google_key = "AIzaSyBhoLgP6V1iOA6NmnASdQEBsm6HET0oQPg"
@@ -397,13 +397,14 @@ def make_order_handle():
 			secret_google_key
 		)
 
-		google_maps_request = urllib.request.urlopen(url)
-		result = loads(stringify(google_maps_request.read())).get("results")[0]
+		google_maps_request = requests.get(url)
+		result = loads(stringify(google_maps_request.text)).get("results")[0]
 		position = result.get("geometry").get("viewport").get("northeast")
-		coordinats = "{}, {}".format(position.get("lat"), position.get("lng"))
+		coordinats = "{}, {}".format(position.get("lat"), position.get("lng"))	
 
 		obj_request["coordinats"] = coordinats
-	except Exception:
+	else:
+		print("Error in request to google maps: {}\n".format(e))
 		return rsp(400, "Google maps internal error(it is very bad!)")
 
 	try:
@@ -421,8 +422,6 @@ def make_order_handle():
 		secret_google_key	
 	)
 	db.db.session.add(order)
-	db.db.session.commit()
-
 	order.coordinats = coordinats
 	db.db.session.commit()
 
