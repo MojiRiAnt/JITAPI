@@ -380,25 +380,31 @@ curl 'api.torianik.online:5000/make_order' -X GET -H 'Content-Type: application/
 @app.route("/make_order", methods=["POST", "GET"])
 def make_order_handle():
 
-	obj_request = loads(stringify(request.data))
+	try:
+		obj_request = loads(stringify(request.data))
+	except Exception:
+		return rsp(400, "Couldn't parse json")
 
-	address = obj_request.get("address")
-	google_maps_host = "https://maps.googleapis.com/maps/api/geocode/json"
-	secret_google_key = "AIzaSyBhoLgP6V1iOA6NmnASdQEBsm6HET0oQPg"
-	address = '+'.join(address.split())
+	try:
+		address = obj_request.get("address")
+		google_maps_host = "https://maps.googleapis.com/maps/api/geocode/json"
+		secret_google_key = "AIzaSyBhoLgP6V1iOA6NmnASdQEBsm6HET0oQPg"
+		address = '+'.join(address.split())
 
-	url = "{}?address={}&key={}&language=ru".format(
-		google_maps_host, 
-		address, 
-		secret_google_key
-	)
+		url = "{}?address={}&key={}&language=ru".format(
+			google_maps_host, 
+			address, 
+			secret_google_key
+		)
 
-	google_maps_request = urllib.request.urlopen(url)
-	result = loads(stringify(google_maps_request.read())).get("results")[0]
-	position = result.get("geometry").get("viewport").get("northeast")
-	coordinats = "{}, {}".format(position.get("lat"), position.get("lng"))
+		google_maps_request = urllib.request.urlopen(url)
+		result = loads(stringify(google_maps_request.read())).get("results")[0]
+		position = result.get("geometry").get("viewport").get("northeast")
+		coordinats = "{}, {}".format(position.get("lat"), position.get("lng"))
 
-	obj_request["coordinats"] = coordinats
+		obj_request["coordinats"] = coordinats
+	except Exception:
+		return rsp(400, "Google maps internal error(it is very bad!)")
 
 	try:
 		order = db.Wish.load(obj_request)
