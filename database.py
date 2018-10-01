@@ -145,6 +145,8 @@ class Wish(db.Model): # An order of Dish from Customer
     status = db.Column(db.Integer, default=0)
     dishes = db.Column(db.String(2 ** 16), nullable=False)
     address = db.Column(db.String(2 ** 16), nullable=False)
+    phone = db.Column(db.String(2 ** 16), nullable=False)
+    name = db.Column(db.String(2 ** 16), nullable=False)
     coordinats = db.Column(db.String(2 ** 16), default="0.0, 0.0")
 
     @classmethod
@@ -158,21 +160,17 @@ class Wish(db.Model): # An order of Dish from Customer
             "dishes": loads(self.dishes),
             "address": self.address,
             "coordinats": self.coordinats,
-            "name": "Hikari Shinji",
-            "phone": "+380500813720"
+            "name": self.name,
+            "phone": self.phone
         }
 
-class Good(db.Model):
+class Supply(db.Model):
     """
     Some amount of ingredient. (Ingredient -- abstract type)
     """
     id = db.Column(db.Integer, primary_key=True)
-    mass = db.Column(db.Float, nullable=False)
-    ingredient_id = db.Column(db.Integer, db.ForeignKey("ingredient.id"), nullable=False)
-    ingredient = db.relationship("Ingredient")
-    cafe_id = db.Column(db.Integer, db.ForeignKey("cafe.id"), nullable=False)
-    cafe = db.relationship("Cafe")
-    date = db.Column(db.DateTime, default=datetime.now)
+    date = db.Column(db.String(2 ** 16), nullable=False, default=datetime.today)
+    goods = db.Column(db.String(2 ** 16), nullable=False)
 
     def dump(self):
         return {
@@ -184,4 +182,6 @@ class Good(db.Model):
 
     @classmethod
     def load(cls, good):
-        return Good(**good)
+        good["goods"] = dumps(good["goods"])
+        return Supply(**good)
+

@@ -168,7 +168,6 @@ def add_dish_handle(emloyee):
 	except Exception as _:
 		return rsp(400, "couldn't parse a dish")
 
-	print("HELLO")
 	db.db.session.add(dish)
 	db.db.session.commit()
 
@@ -209,18 +208,23 @@ def get_state_hashes(employee):
 	result = {
 		"dishes_hash": "1",
 		"pictures_hash": "2",
-		"orders_hash": "3"
+		"orders_hash": "3",
+		"ingredient_hash": "4",
 	}
 
 	dishes = db.Dish.query.all()
 	pictures = os.listdir("{}/resources/public/".format(os.getcwd()))
 	orders = db.Wish.query.all()
+	ingredient = db.Ingredient.query.all()
 
 	dishes = list(map(lambda x: str(x.id), dishes))
 	orders = list(map(lambda x: str(x.id), orders))
+	ingredients = list(map(lambda x: str(x.id), ingredients))
+
 	result["dishes_hash"] = hashlib.sha256(str.encode(','.join(dishes))).hexdigest()
 	result["pictures_hash"] = hashlib.sha256(str.encode(','.join(pictures))).hexdigest()
-	result["orders_hash"] = hashlib.sha256(str.encode(','.join(orders))).hexdigest()	
+	result["orders_hash"] = hashlib.sha256(str.encode(','.join(orders))).hexdigest()
+	result["ingredient_hash"] = hashlib.sha256(str.encode(','.join(ingredients))).hexdigest()	
 
 	return rsp(200, "Hashes was sent", result)
 
@@ -240,25 +244,23 @@ def get_images_handle(employee):
 def supply_handle(employee):
 	try:
 		supply = loads(stringify((request.data)))
-		for good in supply:
-			good["cafe_id"] = employee.cafe_id
+		supply = db.Supply(supply)
 
-		goods = map(db.Good.load, supply)
 	except Exception as _:
 		return rsp(400, "couldn't parse supply")
 
-	for good in goods:
-		db.db.session.add(good)
+	db.db.session.add(supply)
 	db.db.session.commit()
+
 	return rsp(200, "supply were added")
 	
 @app.route("/get/goods", methods=["POST", "GET"])
 @check_employee()
 @check_permission(WRH_MANAGER)
 def get_goods_handle(employee):
-	goods = db.Good.query.filter_by(cafe_id=employee.cafe_id).all()
-	goods = list(map(db.Good.dump, goods))
-	return rsp(200, "goods were sent", dumps(goods, indent=2))
+	goods = db.Good.query.all()
+	goods = list(map(lambda x: x.dump, goods))
+	return rsp(200, "goods were sent", goods)
 
 # ------- DRIVER SECTION -------- #
 
@@ -385,7 +387,7 @@ def make_order_handle():
 	except Exception:
 		return rsp(400, "Couldn't parse json")
 
-	if True:
+	try:
 		address = obj_request.get("address")
 		google_maps_host = "https://maps.googleapis.com/maps/api/geocode/json"
 		secret_google_key = "AIzaSyBhoLgP6V1iOA6NmnASdQEBsm6HET0oQPg"
@@ -403,8 +405,7 @@ def make_order_handle():
 		coordinats = "{}, {}".format(position.get("lat"), position.get("lng"))	
 
 		obj_request["coordinats"] = coordinats
-	else:
-		print("Error in request to google maps: {}\n".format(e))
+	except Exception:
 		return rsp(400, "Google maps internal error(it is very bad!)")
 
 	try:
