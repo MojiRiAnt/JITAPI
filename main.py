@@ -215,7 +215,7 @@ def get_state_hashes(employee):
 	dishes = db.Dish.query.all()
 	pictures = os.listdir("{}/resources/public/".format(os.getcwd()))
 	orders = db.Wish.query.all()
-	ingredient = db.Ingredient.query.all()
+	ingredients = db.Ingredient.query.all()
 
 	dishes = list(map(lambda x: str(x.id), dishes))
 	orders = list(map(lambda x: str(x.id), orders))
