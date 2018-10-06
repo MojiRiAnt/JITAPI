@@ -16,22 +16,28 @@ app = Flask(__name__,
 # make possible to send crossdomain request on this host
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///var/database.db" # Initializing app
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///var/database.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['FLASK_ENV'] = "development"
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.join(os.getcwd(), "resources"), "public")
 
 import database as db
 
-db.db.init_app(app)                                                 # Initializing database
+db.db.init_app(app)
 
-# ====== Routes & queries ====== # IN DEVELOPMENT
-
+# masks of permissions
 COOK = 2 ** 0
 DRIVER = 2 ** 1
 WRH_MANAGER = 2 ** 2
 EMP_MANAGER = 2 ** 3
 ADMIN = 2 ** 4
+
+# states of order
+WAITING_FOR_COOKING = 0
+COOKING = 1
+WAITING_FOR_DELIVERING = 2
+DELIVERING = 3
+DELIVERED = 4
 
 def rsp(status, msg = None, res = None):
 	return dumps({
@@ -138,6 +144,22 @@ def add_ingredient_handle(employee):
 	return rsp(200, "ingredient were added")
 
 
+@app.route("/delete/ingredient/<int:id>", methods=["POST", "GET"])
+@check_employee()
+@check_permission(ADMIN)
+def delete_ingredient_handle(employee, id):
+	ingredients = db.Ingredient.query.filter_by(id=id)
+
+	if not ingredients:
+		return rsp(400, "There is no ingredient with such id") 
+
+	ingredient = ingredients[0]
+	db.db.session.delete(ingredient)
+	db.db.session.commit()
+
+	return rsp(200, "Ingredient was deleted")
+
+
 @app.route("/get/ingredient/<int:ingredient_id>", methods=["POST", "GET"])
 @check_employee()
 @check_permission(ADMIN)
@@ -172,6 +194,22 @@ def add_dish_handle(emloyee):
 	db.db.session.commit()
 
 	return rsp(200, "dish were addded")
+
+
+@app.route("/delete/dish/<int:id>", methods=["POST", "GET"])
+@check_employee()
+@check_permission(ADMIN)
+def delete_dish_handle(employee, id):
+	dishes = db.Dish.query.filter_by(id=id).all()
+
+	if not dishes:
+		return rsp(400, "There is no such dish!")
+
+	dish = dishes[0]
+	db.db.session.delete(dish)
+	db.db.session.commit()
+
+	return rsp(200, "Dish was deleted")
 
 
 @app.route("/upload/photo", methods=["POST", "GET"])
@@ -236,6 +274,24 @@ def get_images_handle(employee):
 
 	return rsp(200, "This is all files in /resources/public", pictures)
 
+
+@app.route("/get/waiting_for_delivering_orders")
+@check_employee()
+@check_permission(ADMIN)
+def waiting_for_delivering_orders_handle(employee):
+	delivered_orders = db.Wish.query.filter_by(status=WAITING_FOR_COOKING).all()
+	delivered_orders = list(map(db.Wish.dump, delivered_orders))
+	return rsp(200, "This is orders that are already delivered", delivered_orders)
+
+
+@app.route("/get/delivered_orders")
+@check_employee()
+@check_permission(ADMIN)
+def get_deivered_orders_handle(employee):
+	delivered_orders = db.Wish.query.filter_by(status=DELIVERED).all()
+	delivered_orders = list(map(db.Wish.dump, delivered_orders))
+	return rsp(200, "This is orders that are already delivered", delivered_orders)
+
 # ------- WAREHOUSE MANAGER SECTION --------- # COMPLETED
 
 @app.route("/supply", methods=["POST", "GET"])
@@ -270,11 +326,11 @@ def get_goods_handle(employee):
 def ready_handle(employee):
 	while True:
 		with app.app_context():
-			wishes = db.Wish.query.filter_by(status=0).all()
+			wishes = db.Wish.query.filter_by(status=WAITING_FOR_COOKING).all()
 
 			if wishes:
 				order = wishes[0]
-				order.status = 2
+				order.status = DELIVERING
 				db.db.session.commit()
 				return rsp(200, "order was sent", order.dump())
 
@@ -333,14 +389,14 @@ def delivered_hadnle(employee):
 		return rsp(400, "There is no order with such id that is delivering now")
 
 	order = orders[0]
-	order.status = 3
+	order.status = DELIVERED
 	db.db.session.commit()
 
 	return rsp(200, "You ready with this! Congradulations!")
 
-# ------- EMPLOYEES MANAGER SECTION ---------- # IN DEVELOPMENT
+# ------- EMPLOYEES MANAGER SECTION ---------- #
 
-# ------- PUBLIC SECTION ------------- # IN DEVELOPMENT
+# ------- PUBLIC SECTION ------------- #
 
 @app.route("/public/<path:pt>")
 def public_handle(pt):
