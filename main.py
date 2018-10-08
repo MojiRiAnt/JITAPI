@@ -300,7 +300,8 @@ def get_deivered_orders_handle(employee):
 def supply_handle(employee):
 	try:
 		supply = loads(stringify((request.data)))
-		supply = db.Supply(supply)
+		print(supply)
+		supply = db.Supply.load(supply)
 
 	except Exception as _:
 		return rsp(400, "couldn't parse supply")
@@ -314,8 +315,8 @@ def supply_handle(employee):
 @check_employee()
 @check_permission(WRH_MANAGER)
 def get_goods_handle(employee):
-	goods = db.Good.query.all()
-	goods = list(map(lambda x: x.dump, goods))
+	goods = db.Supply.query.all()
+	goods = list(map(lambda x: x.dump(), goods))
 	return rsp(200, "goods were sent", goods)
 
 # ------- DRIVER SECTION -------- #

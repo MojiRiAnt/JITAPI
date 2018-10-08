@@ -168,20 +168,20 @@ class Supply(db.Model):
     """
     Some amount of ingredient. (Ingredient -- abstract type)
     """
-    id = db.Column(db.Integer, primary_key=True)
+    id1 = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(2 ** 16), nullable=False, default=datetime.today)
-    goods = db.Column(db.String(2 ** 16), nullable=False)
+    id = db.Column(db.Integer, default=0)
+    mass = db.Column(db.String(2 ** 16))
 
     def dump(self):
         return {
             "id": self.id,
             "mass": self.mass,
-            "ingredient_id": self.ingredient_id,
-            "date": self.date.strftime("%d%m%Y")
+            "date": "{}".format(self.date)
         }
 
     @classmethod
     def load(cls, good):
-        good["goods"] = dumps(good["goods"])
+        print(good)
         return Supply(**good)
 
