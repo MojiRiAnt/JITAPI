@@ -50,7 +50,7 @@
         "is_favourite": true,
         "cost": 80.50,
         "describe": "",
-        "photo": "pastaCarbonara.jpeg",
+        "photo": "pastaCarbonara.jpg",
         "tags": ["first course"],
         "ingredients": [
             {"id": 1, "mass": 100.0},
@@ -65,7 +65,7 @@
         "is_favourite": true,
         "cost": 90.50,
         "describe": "",
-        "photo": "chickenBBQ.jpeg",
+        "photo": "chickenBBQ.jpg",
         "tags": ["first course"],
         "ingredients": [
             {"id": 4, "mass": 150.0},
@@ -79,7 +79,7 @@
         "is_favourite": true,
         "cost": 105.00,
         "describe": "",
-        "photo": "po-burgundsky.jpeg",
+        "photo": "po-burgundsky.jpg",
         "tags": ["first course"],
         "ingredients": [
             {"id": 2, "mass": 200.0},
@@ -94,7 +94,7 @@
             "is_favourite": true,
             "cost": 100.00,
             "describe": "",
-            "photo": "roastedChicken.jpeg",
+            "photo": "roastedChicken.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 4, "mass": 250.0},
@@ -124,7 +124,7 @@
             "is_favourite": true,
             "cost": 250.00,
             "describe": "",
-            "photo": "govSteak.jpeg",
+            "photo": "govSteak.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 2, "mass": 200.0},
@@ -140,7 +140,7 @@
             "is_favourite": true,
             "cost": 125.50,
             "describe": "",
-            "photo": "shrimps.jpeg",
+            "photo": "shrimps.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 7, "mass": 190.0},
@@ -154,7 +154,7 @@
             "is_favourite": true,
             "cost": 135.00,
             "describe": "",
-            "photo": "yagnenok.jpeg",
+            "photo": "yagnenok.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 5, "mass": 170.0},
@@ -169,7 +169,7 @@
             "is_favourite": true,
             "cost": 175.00,
             "describe": "",
-            "photo": "swallow-fish.jpeg",
+            "photo": "swallow-fish.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 10, "mass": 200.0}
@@ -182,7 +182,7 @@
             "is_favourite": true,
             "cost": 140.00,
             "describe": "",
-            "photo": "telyatina.jpeg",
+            "photo": "telyatina.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 3, "mass": 220.0},
@@ -196,7 +196,7 @@
             "is_favourite": true,
             "cost": 90.00,
             "describe": "",
-            "photo": "grecheskiy.jpeg",
+            "photo": "grecheskiy.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 12, "mass": 80.0},
@@ -211,7 +211,7 @@
             "is_favourite": true,
             "cost": 90.00,
             "describe": "",
-            "photo": "saladSvekla.jpeg",
+            "photo": "saladSvekla.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 14, "mass": 90.0},
@@ -225,7 +225,7 @@
             "is_favourite": true,
             "cost": 125.00,
             "describe": "",
-            "photo": "caprese.jpeg",
+            "photo": "caprese.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 12, "mass": 170.0},
@@ -239,7 +239,7 @@
             "is_favourite": true,
             "cost": 95.00,
             "describe": "",
-            "photo": "vinegret.jpeg",
+            "photo": "vinegret.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 11, "mass": 100.0},
@@ -253,7 +253,7 @@
             "is_favourite": true,
             "cost": 135.00,
             "describe": "",
-            "photo": "cezarKrevetki.jpeg",
+            "photo": "cezarKrevetki.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 7, "mass": 100.0},
@@ -269,7 +269,7 @@
             "is_favourite": true,
             "cost": 180.00,
             "describe": "",
-            "photo": "saladGrebeshki.jpeg",
+            "photo": "saladGrebeshki.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 8, "mass": 90.0},
@@ -284,7 +284,7 @@
             "is_favourite": true,
             "cost": 135.00,
             "describe": "",
-            "photo": "cezarLosos.jpeg",
+            "photo": "cezarLosos.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 9, "mass": 100.0},
@@ -300,7 +300,7 @@
             "is_favourite": true,
             "cost": 135.00,
             "describe": "",
-            "photo": "cezarGrudka.jpeg",
+            "photo": "cezarGrudka.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 4, "mass": 100.0},
@@ -316,7 +316,7 @@
             "is_favourite": true,
             "cost": 80.00,
             "describe": "",
-            "photo": "borsch.jpeg",
+            "photo": "borsch.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 1, "mass": 80.0},
@@ -332,7 +332,7 @@
             "is_favourite": true,
             "cost": 70.00,
             "describe": "",
-            "photo": "soup-lapsha.jpeg",
+            "photo": "soup-lapsha.jpg",
             "tags": ["first course"],
             "ingredients": [
                 {"id": 4, "mass": 80.0},
@@ -347,7 +347,7 @@
             "is_favourite": true,
             "cost": 70.00,
             "describe": "",
-            "photo": "brownie.jpeg",
+            "photo": "brownie.jpg",
             "tags": ["first course"],
             "ingredients": [
             ]
@@ -359,7 +359,7 @@
             "is_favourite": true,
             "cost": 65.00,
             "describe": "",
-            "photo": "pannakota.jpeg",
+            "photo": "pannakota.jpg",
             "tags": ["first course"],
             "ingredients": [
             ]
@@ -371,7 +371,7 @@
             "is_favourite": true,
             "cost": 20.00,
             "describe": "",
-            "photo": "pepsi.jpeg",
+            "photo": "pepsi.jpg",
             "tags": ["first course"],
             "ingredients": [
             ]
