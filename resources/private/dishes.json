@@ -42,5 +42,338 @@
             {"title": "cheese", "mass": 30.0},
             {"title": "beef", "mass": 50.0}
         ]
+    },
+    {
+        "title": "Паста Карбонара",
+        "mass": 340.0,
+        "is_visible": true, 
+        "is_favourite": true,
+        "cost": 80.50,
+        "describe": "",
+        "photo": "pastaCarbonara.jpeg",
+        "tags": ["first course"],
+        "ingredients": [
+            {"id": 1, "mass": 100.0},
+            {"id": 18, "mass": 30.0},
+            {"id": 21, "mass": 50.0}
+        ]
+    },
+    {
+        "title": "Курица барбекю",
+        "mass": 210.0,
+        "is_visible": true, 
+        "is_favourite": true,
+        "cost": 90.50,
+        "describe": "",
+        "photo": "chickenBBQ.jpeg",
+        "tags": ["first course"],
+        "ingredients": [
+            {"id": 4, "mass": 150.0},
+            {"id": 16, "mass": 70.0}
+        ]
+    },
+    {
+        "title": "Говядина по-бургундски",
+        "mass": 280.0,
+        "is_visible": true, 
+        "is_favourite": true,
+        "cost": 105.00,
+        "describe": "",
+        "photo": "po-burgundsky.jpeg",
+        "tags": ["first course"],
+        "ingredients": [
+            {"id": 2, "mass": 200.0},
+            {"id": 12, "mass": 40.0},
+            {"id": 15, "mass": 40.0}
+        ]
+    },
+    {
+            "title": "Жареная курица",
+            "mass": 310.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 100.00,
+            "describe": "",
+            "photo": "roastedChicken.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 4, "mass": 250.0},
+                {"id": 16, "mass": 50.0},
+                {"id": 17, "mass": 10.0}
+            ]
+    },
+    {
+            "title": "Лобстер",
+            "mass": 300.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 375.00,
+            "describe": "",
+            "photo": "lobster.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 6, "mass": 250.0},
+                {"id": 12, "mass": 30.0},
+                {"id": 17, "mass": 20.0}
+            ]
+    },
+    {
+            "title": "Стейк из говядины",
+            "mass": 280.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 250.00,
+            "describe": "",
+            "photo": "govSteak.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 2, "mass": 200.0},
+                {"id": 12, "mass": 40.0},
+                {"id": 13, "mass": 20.0},
+                {"id": 15, "mass": 20.0}
+            ]
+    },
+    {
+            "title": "Креветки в апельсиновом соусе",
+            "mass": 210.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 125.50,
+            "describe": "",
+            "photo": "shrimps.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 7, "mass": 190.0},
+                {"id": 17, "mass": 20.0}
+            ]
+    },
+    {
+            "title": "Ягненок",
+            "mass": 207.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 135.00,
+            "describe": "",
+            "photo": "yagnenok.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 5, "mass": 170.0},
+                {"id": 15, "mass": 20.0},
+                {"id": 21, "mass": 20.0}
+            ]
+    },
+    {
+            "title": "Рыба-меч",
+            "mass": 220.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 175.00,
+            "describe": "",
+            "photo": "swallow-fish.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 10, "mass": 200.0}
+            ]
+    },
+    {
+            "title": "Телятина",
+            "mass": 250.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 140.00,
+            "describe": "",
+            "photo": "telyatina.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 3, "mass": 220.0},
+                {"id": 12, "mass": 30.0}
+            ]
+    },
+    {
+            "title": "Салат Греческий",
+            "mass": 250.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 90.00,
+            "describe": "",
+            "photo": "grecheskiy.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 12, "mass": 80.0},
+                {"id": 13, "mass": 90.0},
+                {"id": 20, "mass": 80.0}
+            ]
+    },
+    {
+            "title": "Салат из печеной свеклы",
+            "mass": 115.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 90.00,
+            "describe": "",
+            "photo": "saladSvekla.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 14, "mass": 90.0},
+                {"id": 20, "mass": 25.0}
+            ]
+    },
+    {
+            "title": "Капрезе",
+            "mass": 220.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 125.00,
+            "describe": "",
+            "photo": "caprese.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 12, "mass": 170.0},
+                {"id": 19, "mass": 50.0}
+            ]
+    },
+    {
+            "title": "Винегрет из запеченных овощей",
+            "mass": 158.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 95.00,
+            "describe": "",
+            "photo": "vinegret.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 11, "mass": 100.0},
+                {"id": 14, "mass": 60.0}
+            ]
+    },
+    {
+            "title": "Цезарь с креветками",
+            "mass": 220.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 135.00,
+            "describe": "",
+            "photo": "cezarKrevetki.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 7, "mass": 100.0},
+                {"id": 12, "mass": 50.0},
+                {"id": 18, "mass": 50.0},
+                {"id": 21, "mass": 20.0}
+            ]
+    },
+    {
+            "title": "Салат из морских гребешков",
+            "mass": 182.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 180.00,
+            "describe": "",
+            "photo": "saladGrebeshki.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 8, "mass": 90.0},
+                {"id": 12, "mass": 60.0},
+                {"id": 15, "mass": 32.0}
+            ]
+    },
+    {
+            "title": "Цезарь с маринованным лососем",
+            "mass": 220.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 135.00,
+            "describe": "",
+            "photo": "cezarLosos.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 9, "mass": 100.0},
+                {"id": 12, "mass": 50.0},
+                {"id": 18, "mass": 50.0},
+                {"id": 21, "mass": 20.0}
+            ]
+    },
+    {
+            "title": "Цезарь с куриной грудкой",
+            "mass": 220.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 135.00,
+            "describe": "",
+            "photo": "cezarGrudka.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 4, "mass": 100.0},
+                {"id": 12, "mass": 50.0},
+                {"id": 18, "mass": 50.0},
+                {"id": 21, "mass": 20.0}
+            ]
+    },
+    {
+            "title": "Борщ",
+            "mass": 300.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 80.00,
+            "describe": "",
+            "photo": "borsch.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 1, "mass": 80.0},
+                {"id": 12, "mass": 40.0},
+                {"id": 14, "mass": 40.0},
+                {"id": 16, "mass": 40.0}
+            ]
+    },
+    {
+            "title": "Суп-лапша по-домашнему",
+            "mass": 250.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 70.00,
+            "describe": "",
+            "photo": "soup-lapsha.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+                {"id": 4, "mass": 80.0},
+                {"id": 16, "mass": 40.0},
+                {"id": 18, "mass": 30.0}
+            ]
+    },
+    {
+            "title": "Шоколадный брауни",
+            "mass": 100.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 70.00,
+            "describe": "",
+            "photo": "brownie.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+            ]
+    },
+    {
+            "title": "Панна котта",
+            "mass": 100.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 65.00,
+            "describe": "",
+            "photo": "pannakota.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+            ]
+    },
+    {
+            "title": "Пепси",
+            "mass": 500.0,
+            "is_visible": true, 
+            "is_favourite": true,
+            "cost": 20.00,
+            "describe": "",
+            "photo": "pepsi.jpeg",
+            "tags": ["first course"],
+            "ingredients": [
+            ]
     }
 ]
