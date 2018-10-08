@@ -1,49 +1,5 @@
 [
     {
-        "title": "tomato soup",
-        "mass": 200.0,
-        "is_visible": true, 
-        "is_favourite": true,
-        "cost": 120.50,
-        "describe": "Like default soup, but with tomatos",
-        "photo": "tomato_soup.png",
-        "tags": ["first course"],
-        "ingredients": [
-            {"title": "tomato", "mass": 50.0},
-            {"title": "eggs", "mass": 30.0},
-            {"title": "potato", "mass": 40.0}
-        ]
-    },
-    {
-        "title": "french fries",
-        "mass": 150.0,
-        "is_visible": true,
-        "is_favourite": true,
-        "cost": 40,
-        "describe": "Cartoshka free",
-        "photo": "french_fries.png",
-        "tags": ["garnish"],
-        "ingredients": [
-            {"title": "potato", "mass": 150.0},
-            {"title": "sunflower oil", "mass": 20.0}
-        ]
-    },
-    {
-        "title": "burger",
-        "mass": 170.0,
-        "is_visible": true, 
-        "cost": 69.99,
-        "describe": "It is burger and there is nothing to say",
-        "photo": "burger.png",
-        "tags": ["burger", "garnish", "discount"],
-        "ingredients": [
-            {"title": "tomato", "mass": 50.0},
-            {"title": "bread", "mass": 50.0},
-            {"title": "cheese", "mass": 30.0},
-            {"title": "beef", "mass": 50.0}
-        ]
-    },
-    {
         "title": "Паста Карбонара",
         "mass": 340.0,
         "is_visible": true, 
