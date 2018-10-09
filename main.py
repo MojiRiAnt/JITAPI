@@ -233,7 +233,18 @@ def upload_dish_photo_handle():
 @check_permission(ADMIN)
 def get_orders_handle(employee):
 	with app.app_context():
-		orders = db.Wish.query.all()
+		orders = db.Wish.query.filter_by(status=0).all()
+
+	orders = list(map(lambda order : order.dump(), orders))
+
+	return rsp(200, "Orders were sent", orders)
+
+@app.route("/get/order_history", methods=["POST", "GET"])
+@check_employee()
+@check_permission(ADMIN)
+def get_order_history_handle(employee):
+	with app.app_context():
+		orders = db.Wish.query.filter_by(status=DELIVERED).all()
 
 	orders = list(map(lambda order : order.dump(), orders))
 
