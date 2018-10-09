@@ -144,9 +144,9 @@ class Wish(db.Model): # An order of Dish from Customer
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Integer, default=0)
     dishes = db.Column(db.String(2 ** 16), nullable=False)
-    address = db.Column(db.String(2 ** 16), nullable=False)
-    phone = db.Column(db.String(2 ** 16), nullable=False)
-    name = db.Column(db.String(2 ** 16), nullable=False)
+    address = db.Column(db.String(2 ** 16), nullable="noaddress")
+    phone = db.Column(db.String(2 ** 16), nullable="nophone")
+    name = db.Column(db.String(2 ** 16), nullable="noname")
     coordinats = db.Column(db.String(2 ** 16), default="0.0, 0.0")
 
     @classmethod
@@ -175,7 +175,8 @@ class Supply(db.Model):
 
     def dump(self):
         return {
-            "id": self.id,
+            "id": self.id1,
+	    "ingredient_id": self.id,
             "mass": self.mass,
             "date": "{}".format(self.date)
         }

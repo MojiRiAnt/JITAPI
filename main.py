@@ -299,6 +299,7 @@ def get_deivered_orders_handle(employee):
 @check_permission(WRH_MANAGER)
 def supply_handle(employee):
 	try:
+		print(stringify(request.data))
 		supply = loads(stringify((request.data)))
 		print(supply)
 		supply = db.Supply.load(supply)
@@ -311,6 +312,19 @@ def supply_handle(employee):
 
 	return rsp(200, "supply were added")
 	
+
+@app.route("/delete/supply/<int:id>", methods=["POST", "GET"])
+@check_employee()
+@check_permission(WRH_MANAGER)
+def delete_supply_handle(employee, id):
+	supply = db.Supply.query.filter_by(id1=id).all()
+	if not supply:
+		return rsp(400, "There is no such supply :(")
+
+	db.db.session.delete(supply[0])
+	db.db.session.commit()
+	return rsp(200, "Supply was deleted")
+
 @app.route("/get/goods", methods=["POST", "GET"])
 @check_employee()
 @check_permission(WRH_MANAGER)
