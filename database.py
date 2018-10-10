@@ -164,12 +164,17 @@ class Wish(db.Model): # An order of Dish from Customer
             "phone": self.phone
         }
 
+def get_date_today():
+    def wrapper():
+        return datetime.date.today().strftime("%d-%m-%Y")
+    return wrapper
+
 class Supply(db.Model):
     """
     Some amount of ingredient. (Ingredient -- abstract type)
     """
     id1 = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(2 ** 16), nullable=False, default=datetime.today)
+    date = db.Column(db.String(2 ** 16), nullable=False, default=get_date_today())
     id = db.Column(db.Integer, default=0)
     mass = db.Column(db.String(2 ** 16))
 
@@ -178,11 +183,10 @@ class Supply(db.Model):
             "id": self.id1,
 	    "ingredient_id": self.id,
             "mass": self.mass,
-            "date": self.date.strftime("%d-%m-%Y")
+            "date": self.date
         }
 
     @classmethod
     def load(cls, good):
-        print(good)
         return Supply(**good)
 
