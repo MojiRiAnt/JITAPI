@@ -178,7 +178,7 @@ class Supply(db.Model):
             "id": self.id1,
 	    "ingredient_id": self.id,
             "mass": self.mass,
-            "date": "{}".format(self.date)
+            "date": self.date.strftime("%d-%m-%Y")
         }
 
     @classmethod
