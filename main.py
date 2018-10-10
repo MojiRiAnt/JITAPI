@@ -244,7 +244,7 @@ def get_orders_handle(employee):
 @check_permission(ADMIN)
 def get_order_history_handle(employee):
 	with app.app_context():
-		orders = db.Wish.query.filter_by(status=DELIVERED).all()
+		orders = db.Wish.query.all()
 
 	orders = list(map(lambda order : order.dump(), orders))
 
