@@ -1,46 +1,86 @@
 [
     {
-        "title": "tomato",
-        "expiry": "03-00-00"
-    },
-    {
-        "title": "potato",
-        "expiry": "05-00-00"
-    },
-    {
-        "title": "eggs",
+        "title": "Свинина",
         "expiry": "02-00-00"
     },
     {
-        "title": "salmon",
-        "expiry": "00-12-00"
-    },
-    {
-        "title": "carp",
+        "title": "Говядина",
         "expiry": "02-00-00"
     },
-    {
-        "title": "beef",
-        "expiry": "03-00-00"
+     {
+        "title": "Телятина",
+        "expiry": "02-00-00"
     },
-    {
-        "title": "bread",
+     {
+        "title": "Курица",
+        "expiry": "02-00-00"
+    },
+     {
+        "title": "Баранина",
+        "expiry": "02-00-00"
+    },
+     {
+        "title": "Лобстер",
         "expiry": "01-00-00"
     },
-    {
-        "title": "cheese default",
+     {
+        "title": "Креветки",
+        "expiry": "01-00-00"
+    },
+     {
+        "title": "Морской гребень",
+        "expiry": "01-00-00"
+    },
+     {
+        "title": "Лосось",
+        "expiry": "01-00-00"
+    },
+     {
+        "title": "Меч-рыба",
+        "expiry": "01-00-00"
+    },
+     {
+        "title": "Сельдь",
+        "expiry": "01-00-00"
+    },
+     {
+        "title": "Томаты",
+        "expiry": "5-00-00"
+    },
+     {
+        "title": "Огурцы",
         "expiry": "10-00-00"
     },
-    {
-        "title": "sunflower oil",
-        "expiry": "365-00-00"
+     {
+        "title": "Свекла",
+        "expiry": "30-00-00"
     },
-    {
-        "title": "oliv oil",
-        "expiry": "730-00-00"
+     {
+        "title": "Баклажаны",
+        "expiry": "07-00-00"
     },
-    {
-        "title": "spicy spices",
-        "expiry": "730-00-00"
+     {
+        "title": "Картофель",
+        "expiry": "14-00-00"
+    },
+     {
+        "title": "Микс-салат",
+        "expiry": "00-12-00"
+    },
+     {
+        "title": "Яйца",
+        "expiry": "01-00-00"
+    },
+     {
+        "title": "Сыр(Моцарелла)",
+        "expiry": "05-00-00"
+    },
+     {
+        "title": "Сыр(Фета)",
+        "expiry": "05-00-00"
+    },
+     {
+        "title": "Сыр(Пармезан)",
+        "expiry": "05-00-00"
     }
 ]

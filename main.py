@@ -233,6 +233,17 @@ def upload_dish_photo_handle():
 @check_permission(ADMIN)
 def get_orders_handle(employee):
 	with app.app_context():
+		orders = db.Wish.query.filter_by(status=0).all()
+
+	orders = list(map(lambda order : order.dump(), orders))
+
+	return rsp(200, "Orders were sent", orders)
+
+@app.route("/get/order_history", methods=["POST", "GET"])
+@check_employee()
+@check_permission(ADMIN)
+def get_order_history_handle(employee):
+	with app.app_context():
 		orders = db.Wish.query.all()
 
 	orders = list(map(lambda order : order.dump(), orders))
@@ -299,8 +310,10 @@ def get_deivered_orders_handle(employee):
 @check_permission(WRH_MANAGER)
 def supply_handle(employee):
 	try:
+		print(stringify(request.data))
 		supply = loads(stringify((request.data)))
-		supply = db.Supply(supply)
+		print(supply)
+		supply = db.Supply.load(supply)
 
 	except Exception as _:
 		return rsp(400, "couldn't parse supply")
@@ -310,12 +323,25 @@ def supply_handle(employee):
 
 	return rsp(200, "supply were added")
 	
+
+@app.route("/delete/supply/<int:id>", methods=["POST", "GET"])
+@check_employee()
+@check_permission(WRH_MANAGER)
+def delete_supply_handle(employee, id):
+	supply = db.Supply.query.filter_by(id1=id).all()
+	if not supply:
+		return rsp(400, "There is no such supply :(")
+
+	db.db.session.delete(supply[0])
+	db.db.session.commit()
+	return rsp(200, "Supply was deleted")
+
 @app.route("/get/goods", methods=["POST", "GET"])
 @check_employee()
 @check_permission(WRH_MANAGER)
 def get_goods_handle(employee):
-	goods = db.Good.query.all()
-	goods = list(map(lambda x: x.dump, goods))
+	goods = db.Supply.query.all()
+	goods = list(map(lambda x: x.dump(), goods))
 	return rsp(200, "goods were sent", goods)
 
 # ------- DRIVER SECTION -------- #
